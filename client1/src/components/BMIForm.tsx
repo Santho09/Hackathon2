@@ -154,24 +154,21 @@ function BMIForm() {
 
             {(bmiResult || bmrResult || caloriesResult) && (
                 <div className="results-container">
-                    
-{(bmiResult && typeof bmiResult.bmi === 'number') && (
-    <div className="result-card">
-        <h3>BMI Results</h3>
-        <div className="result-value">
-            <span className="value">{bmiResult.bmi.toFixed(1)}</span>
-            <span className="category" style={{ backgroundColor: category?.color }}>
-                {category?.label}
-            </span>
-        </div>
-        <p className="result-description">
+                    {(bmiResult && typeof bmiResult.bmi === 'number') && (
+                <div className="result-card">
+                  <h3>BMI Results</h3>
+               <div className="result-value">
+                    <span className="value">{bmiResult.bmi.toFixed(1)}</span>
+                   <span className="category" style={{ backgroundColor: category?.color }}>
+                      {category?.label}
+                 </span>
+              </div>
+            <p className="result-description">
             Body Mass Index (BMI) is a measure of body fat based on height and weight.
-        </p>
-    </div>
-)}
-
-
-                    {bmrResult && (
+               </p>
+           </div>
+             )}
+             {bmrResult && (
                         <div className="result-card">
                             <h3>BMR Results</h3>
                             <div className="result-value">
@@ -183,7 +180,6 @@ function BMIForm() {
                             </p>
                         </div>
                     )}
-
                     {caloriesResult && (
                         <div className="result-card">
                             <h3>Daily Calorie Requirement</h3>
