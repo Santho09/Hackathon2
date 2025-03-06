@@ -32,7 +32,7 @@ function App() {
                         <li>
                             <NavLink to="/" onClick={() => setIsNavOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>
                                 <Scale size={24} />
-                                <span>BMI & BMR</span>
+                                <span>BMR & CALORIE</span>
                             </NavLink>
                         </li>
                         <li>

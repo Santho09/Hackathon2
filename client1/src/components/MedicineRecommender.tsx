@@ -10,7 +10,7 @@ function MedicineRecommender() {
     const [showDescription, setShowDescription] = useState(false);
 
     const commonDiseases = [
-        "Fungal skin infections", "Treatment of Dandruff", "Depression", "Nutritional deficiencies",
+        "Fungal skin infections", "Treatment of Dandruff", "Nutritional deficiencies",
         "Pain relief", "Depression Smoking addiction", "Treatment of Type 2 diabetes mellitus", "Treatment of Infectious diarrhea"
     ];
 

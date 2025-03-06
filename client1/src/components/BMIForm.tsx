@@ -3,17 +3,26 @@ import axios from "axios";
 import { Scale, Activity } from "lucide-react";
 
 function BMIForm() {
-    const [formData, setFormData] = useState({ weight: "", height: "", age: "", gender: "male", activityLevel: "sedentary" });
+    const [formData, setFormData] = useState({
+        weight: "",
+        height: "",
+        age: "",
+        gender: "male",
+        activityLevel: "sedentary",
+    });
+
     const [bmiResult, setBmiResult] = useState<any>(null);
     const [bmrResult, setBmrResult] = useState<any>(null);
     const [caloriesResult, setCaloriesResult] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    // Handle input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    // Handle form submit
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -25,6 +34,7 @@ function BMIForm() {
                 weight: parseFloat(formData.weight),
                 height: parseFloat(formData.height),
             });
+            console.log("BMI Response:", bmiResponse.data); // Debugging log
             setBmiResult(bmiResponse.data);
 
             // BMR API call
@@ -34,6 +44,7 @@ function BMIForm() {
                 age: parseInt(formData.age),
                 gender: formData.gender,
             });
+            console.log("BMR Response:", bmrResponse.data); // Debugging log
             setBmrResult(bmrResponse.data);
 
             // Calories API call
@@ -44,6 +55,7 @@ function BMIForm() {
                 gender: formData.gender,
                 activityLevel: formData.activityLevel,
             });
+            console.log("Calories Response:", caloriesResponse.data); // Debugging log
             setCaloriesResult(caloriesResponse.data);
         } catch (error) {
             console.error("Error:", error);
@@ -53,6 +65,7 @@ function BMIForm() {
         }
     };
 
+    // Function to get BMI category
     const getBMICategory = (bmi: number) => {
         if (!bmi) return {};
         if (bmi < 18.5) return { label: "Underweight", color: "#3498db" };
@@ -67,11 +80,11 @@ function BMIForm() {
         <div className="module-container">
             <div className="module-header">
                 <Scale size={32} />
-                <h2>BMI, BMR & Calorie Calculator</h2>
+                <h2>BMR & Calorie Calculator</h2>
             </div>
-            
+
             <div className="form-description">
-                <p>Calculate your BMI, BMR, and daily calorie intake by entering your details below.</p>
+                <p>Calculate your  BMR, and daily calorie intake by entering your details below.</p>
             </div>
 
             {error && <div className="error">{error}</div>}
@@ -79,51 +92,46 @@ function BMIForm() {
             <form onSubmit={handleSubmit} className="form-grid">
                 <div className="form-group">
                     <label htmlFor="weight">Weight (kg)</label>
-                    <input 
-                        type="number" 
+                    <input
+                        type="number"
                         id="weight"
-                        name="weight" 
+                        name="weight"
                         value={formData.weight}
-                        placeholder="Enter your weight" 
-                        onChange={handleChange} 
-                        required 
+                        placeholder="Enter your weight"
+                        onChange={handleChange}
+                        required
                     />
                 </div>
 
                 <div className="form-group">
                     <label htmlFor="height">Height (cm)</label>
-                    <input 
-                        type="number" 
+                    <input
+                        type="number"
                         id="height"
-                        name="height" 
+                        name="height"
                         value={formData.height}
-                        placeholder="Enter your height" 
-                        onChange={handleChange} 
-                        required 
+                        placeholder="Enter your height"
+                        onChange={handleChange}
+                        required
                     />
                 </div>
 
                 <div className="form-group">
                     <label htmlFor="age">Age</label>
-                    <input 
-                        type="number" 
+                    <input
+                        type="number"
                         id="age"
-                        name="age" 
+                        name="age"
                         value={formData.age}
-                        placeholder="Enter your age" 
-                        onChange={handleChange} 
-                        required 
+                        placeholder="Enter your age"
+                        onChange={handleChange}
+                        required
                     />
                 </div>
 
                 <div className="form-group">
                     <label htmlFor="gender">Gender</label>
-                    <select 
-                        id="gender"
-                        name="gender" 
-                        value={formData.gender}
-                        onChange={handleChange}
-                    >
+                    <select id="gender" name="gender" value={formData.gender} onChange={handleChange}>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </select>
@@ -152,23 +160,25 @@ function BMIForm() {
                 </div>
             </form>
 
+            {/* Results Section */}
             {(bmiResult || bmrResult || caloriesResult) && (
                 <div className="results-container">
-                    {(bmiResult && typeof bmiResult.bmi === 'number') && (
-                <div className="result-card">
-                  <h3>BMI Results</h3>
-               <div className="result-value">
-                    <span className="value">{bmiResult.bmi.toFixed(1)}</span>
-                   <span className="category" style={{ backgroundColor: category?.color }}>
-                      {category?.label}
-                 </span>
-              </div>
-            <p className="result-description">
-            Body Mass Index (BMI) is a measure of body fat based on height and weight.
-               </p>
-           </div>
-             )}
-             {bmrResult && (
+                    {bmiResult && typeof bmiResult.bmi === "number" && (
+                        <div className="result-card">
+                            <h3>BMI Results</h3>
+                            <div className="result-value">
+                                <span className="value">{bmiResult.bmi.toFixed(1)}</span>
+                                <span className="category" style={{ backgroundColor: category?.color }}>
+                                    {category?.label}
+                                </span>
+                            </div>
+                            <p className="result-description">
+                                Body Mass Index (BMI) is a measure of body fat based on height and weight.
+                            </p>
+                        </div>
+                    )}
+
+                    {bmrResult && (
                         <div className="result-card">
                             <h3>BMR Results</h3>
                             <div className="result-value">
@@ -180,6 +190,7 @@ function BMIForm() {
                             </p>
                         </div>
                     )}
+
                     {caloriesResult && (
                         <div className="result-card">
                             <h3>Daily Calorie Requirement</h3>
